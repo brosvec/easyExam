@@ -1,0 +1,1 @@
+web: env DATABASE_URL=$JDBC_DATABASE_URL java -jar target/eshop-0.0.1.jar --server.port=$PORT
