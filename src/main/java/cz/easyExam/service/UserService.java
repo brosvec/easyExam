@@ -2,6 +2,7 @@ package cz.easyExam.service;
 
 
 import cz.easyExam.dao.UserDao;
+import cz.easyExam.exception.ValidationException;
 import cz.easyExam.model.User;
 import cz.easyExam.rest.DTO.UserDTO;
 import cz.easyExam.security.SecurityUtils;
@@ -28,9 +29,24 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    private boolean validateUserRegistration(User user) throws ValidationException{
+        User userByUsername = dao.findByUsername(user.getUsername());
+        User userByEmail = dao.findByEmail(user.getEmail());
+        if(userByUsername != null ){
+            throw new ValidationException("User with this username exist");
+        }
+        if(userByEmail != null){
+            throw new ValidationException("User with this email exist");
+        }
+       return true;
+    }
+
     @Transactional
-    public void persist(User user) {
+    public void persist(User user) throws ValidationException {
         Objects.requireNonNull(user);
+        if(!validateUserRegistration(user)){
+            return;
+        }
         user.encodePassword(passwordEncoder);
         user.setRole(Constants.DEFAULT_ROLE);
         dao.persist(user);

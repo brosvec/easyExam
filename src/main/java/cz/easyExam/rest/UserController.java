@@ -34,14 +34,20 @@ public class UserController {
     /**
      * Registers a new user.
      *
-     * @param user User data
+     * @param userDto UserDTO data
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> register(@RequestBody User user) {
-        userService.persist(user);
-        LOG.debug("User {} successfully registered.", user);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/current");
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    public ResponseEntity register(@RequestBody UserDTO userDto) {
+        try {
+            User user = userDto.convertToUser();
+            userService.persist(user);
+            LOG.debug("User {} successfully registered.", user);
+            final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/current");
+            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        }
+        catch (ValidationException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER')")

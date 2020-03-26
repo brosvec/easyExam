@@ -1,3 +1,13 @@
+pro push na heroku:
+        PersisteneceConfig comment 2. atribut a změnit na "drop-and-create-tables"
+        application properties - comment spring.datasource.username a spring.datasource.password
+
+
 TODO:
-Validace usera (ověřit unikátnost usernamu)
-Validace testu (ověřit unikátnost name)
+
+Id, dává to po 50ti 52,101,152...
+
+
+
+
+

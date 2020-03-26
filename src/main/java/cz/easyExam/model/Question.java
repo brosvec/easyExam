@@ -1,5 +1,7 @@
 package cz.easyExam.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,17 +19,21 @@ public class Question extends AbstractEntity {
     @Column
     private int questionNumber;
 
+    @JsonIgnore
     @Lob
     @Column(length=100000)
     private byte[] questionAttachment;
 
+    @JsonIgnore
     @Lob
     @Column(length=100000)
     private byte[] answer;
 
+    @JsonIgnore
     @ManyToOne
     private Test test;
 
+    @JsonIgnore
     @OneToMany(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "question_id")
     private List<QuestionUser> questionUsers;

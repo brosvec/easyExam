@@ -30,6 +30,10 @@ public class Test extends AbstractEntity {
     @JoinColumn(name = "test_id")
     private List<Question> questions;
 
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private boolean isPublished;
+
     public List<Question> getQuestions() {
         return questions;
     }
@@ -44,6 +48,14 @@ public class Test extends AbstractEntity {
 
     public void setTestName(String testName) {
         this.testName = testName;
+    }
+
+    public boolean isPublished() {
+        return isPublished;
+    }
+
+    public void setPublished(boolean published) {
+        isPublished = published;
     }
 
     public Difficulty getDifficulty() {

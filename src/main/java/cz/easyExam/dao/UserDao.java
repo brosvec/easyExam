@@ -20,4 +20,13 @@ public class UserDao extends BaseDao<User> {
             return null;
         }
     }
+
+    public User findByEmail(String email) {
+        try {
+            return (User) em.createQuery("SELECT u FROM User u WHERE u.email = :email").setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

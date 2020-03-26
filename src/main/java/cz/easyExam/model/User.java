@@ -1,5 +1,6 @@
 package cz.easyExam.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,9 +21,10 @@ public class User extends AbstractEntity implements Cloneable {
     private String username;
 
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
 
+    @JsonIgnore
     @Basic(optional = false)
     @Column(nullable = false)
     private String password;
@@ -30,15 +32,17 @@ public class User extends AbstractEntity implements Cloneable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    // todo: zde return only id
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "owner_id")
     private List<Test> ownedTests;
 
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "owner_id")
     private List<SubscribedTest> subscribedTest;
 
+    @JsonIgnore
     @OneToMany
     @JoinColumn(name = "user_id")
     private List<QuestionUser> userQuestions;

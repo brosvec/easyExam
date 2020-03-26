@@ -1,5 +1,7 @@
 package cz.easyExam.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -19,6 +21,11 @@ public class SubscribedTest  extends AbstractEntity  {
 
     @Basic(optional = false)
     @Column(nullable = false)
+    private Boolean isArchived;
+
+    @Basic
+    @Column
+    @JsonFormat(pattern="dd-MM-yyyy")
     private LocalDate finishDate;
 
     @ManyToOne
@@ -37,6 +44,14 @@ public class SubscribedTest  extends AbstractEntity  {
 
     public Boolean getQuestionOrderRandom() {
         return isQuestionOrderRandom;
+    }
+
+    public Boolean getArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(Boolean archived) {
+        isArchived = archived;
     }
 
     public void setQuestionOrderRandom(Boolean questionOrderRandom) {
